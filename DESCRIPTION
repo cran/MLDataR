@@ -2,10 +2,11 @@ Package: MLDataR
 Type: Package
 Title: Collection of Machine Learning Datasets for Supervised Machine
         Learning
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
           person("Gary", "Hutson", , "hutsons-hacks@outlook.com", c("aut", "cre"), 
-          comment = c(ORCID="0000-0003-3534-6143"))
+          comment = c(ORCID="0000-0003-3534-6143")),
+          person("Asif", "Laldin", , "laldin.asif@gmail.com", c("aut"))
           )
 Maintainer: Gary Hutson <hutsons-hacks@outlook.com>
 Description: Contains a collection of datasets for working with machine learning tasks.
@@ -16,13 +17,14 @@ Encoding: UTF-8
 LazyData: true
 BugReports: https://github.com/StatsGary/MLDataR/issues
 Imports: ConfusionTableR, dplyr, parsnip, rsample, recipes, workflows,
-        ranger
-Depends: R (>= 2.10)
+        ranger, caret
 RoxygenNote: 7.1.2
 Suggests: rmarkdown, knitr
 VignetteBuilder: knitr
+Depends: R (>= 2.10)
 NeedsCompilation: no
-Packaged: 2022-01-04 11:01:05 UTC; garyh
-Author: Gary Hutson [aut, cre] (<https://orcid.org/0000-0003-3534-6143>)
+Packaged: 2022-02-02 13:29:40 UTC; garyh
+Author: Gary Hutson [aut, cre] (<https://orcid.org/0000-0003-3534-6143>),
+  Asif Laldin [aut]
 Repository: CRAN
-Date/Publication: 2022-01-05 09:20:07 UTC
+Date/Publication: 2022-02-02 13:40:04 UTC

@@ -15,6 +15,7 @@ library(rsample)
 library(recipes)
 library(ranger)
 library(workflows)
+library(caret)
 
 
 ## ----install_MLDataR----------------------------------------------------------
@@ -94,10 +95,14 @@ td_preds <- test_data %>%
 td_preds$.pred_class <- as.factor(td_preds$.pred_class)
 td_preds$ThryroidClass <- as.factor(td_preds$ThryroidClass)
 
+str(td_preds)
+
 # Evaluate the data with ConfusionTableR
-cm <- ConfusionTableR::binary_class_cm(train_labels = td_preds$ThryroidClass ,
-                                       truth_labels = td_preds$.pred_class,
-                                       positive="sick")
+cm <- binary_class_cm(td_preds$.pred_class,
+                      td_preds$ThryroidClass,
+                      positive="sick")
+
+
 
 
 ## ----modelling_preds----------------------------------------------------------

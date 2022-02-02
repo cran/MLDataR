@@ -524,12 +524,43 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb9-6"><a href="#cb9-6"></a>td_preds<span class="op">$</span>.pred_class &lt;-<span class="st"> </span><span class="kw">as.factor</span>(td_preds<span class="op">$</span>.pred_class)</span>
 <span id="cb9-7"><a href="#cb9-7"></a>td_preds<span class="op">$</span>ThryroidClass &lt;-<span class="st"> </span><span class="kw">as.factor</span>(td_preds<span class="op">$</span>ThryroidClass)</span>
 <span id="cb9-8"><a href="#cb9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># Evaluate the data with ConfusionTableR</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>cm &lt;-<span class="st"> </span>ConfusionTableR<span class="op">::</span><span class="kw">binary_class_cm</span>(<span class="dt">train_labels =</span> td_preds<span class="op">$</span>ThryroidClass ,</span>
-<span id="cb9-11"><a href="#cb9-11"></a>                                       <span class="dt">truth_labels =</span> td_preds<span class="op">$</span>.pred_class,</span>
-<span id="cb9-12"><a href="#cb9-12"></a>                                       <span class="dt">positive=</span><span class="st">&quot;sick&quot;</span>)</span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; [INFO] Building a record level confusion matrix to store in dataset</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; [INFO] Build finished and to expose record level cm use the record_level_cm list item</span></span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="kw">str</span>(td_preds)</span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; &#39;data.frame&#39;:    688 obs. of  28 variables:</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt;  $ ThryroidClass                 : Factor w/ 2 levels &quot;negative&quot;,&quot;sick&quot;: 2 2 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt;  $ patient_age                   : int  80 81 73 78 48 81 68 27 54 74 ...</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt;  $ patient_gender                : num  1 0 1 1 0 1 0 1 1 0 ...</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt;  $ presc_thyroxine               : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt;  $ queried_why_on_thyroxine      : num  0 0 0 0 1 0 0 0 0 0 ...</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt;  $ presc_anthyroid_meds          : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt;  $ sick                          : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt;  $ pregnant                      : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt;  $ thyroid_surgery               : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt;  $ radioactive_iodine_therapyI131: num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;  $ query_hypothyroid             : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt;  $ query_hyperthyroid            : num  0 0 0 0 1 0 0 0 0 0 ...</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt;  $ lithium                       : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt;  $ goitre                        : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt;  $ tumor                         : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt;  $ hypopituitarism               : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt;  $ psych_condition               : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt;  $ TSH_measured                  : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt;  $ TSH_reading                   : num  2.2 1.9 1.9 0.5 5.4 0.2 0.4 15 19 1 ...</span></span>
+<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt;  $ T3_measured                   : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt;  $ T3_reading                    : num  0.6 0.3 1.5 1.9 1.9 2.2 2.2 1.6 2.2 2.1 ...</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#&gt;  $ T4_measured                   : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#&gt;  $ T4_reading                    : num  80 102 113 81 87 133 117 82 83 77 ...</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a><span class="co">#&gt;  $ thyrox_util_rate_T4U_measured : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a><span class="co">#&gt;  $ thyrox_util_rate_T4U_reading  : num  0.7 0.96 1.06 0.83 1 0.78 0.86 0.82 1.03 0.91 ...</span></span>
+<span id="cb9-36"><a href="#cb9-36"></a><span class="co">#&gt;  $ FTI_measured                  : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-37"><a href="#cb9-37"></a><span class="co">#&gt;  $ FTI_reading                   : num  115 106 106 98 87 171 136 100 81 84 ...</span></span>
+<span id="cb9-38"><a href="#cb9-38"></a><span class="co">#&gt;  $ .pred_class                   : Factor w/ 2 levels &quot;negative&quot;,&quot;sick&quot;: 2 2 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb9-39"><a href="#cb9-39"></a></span>
+<span id="cb9-40"><a href="#cb9-40"></a><span class="co"># Evaluate the data with ConfusionTableR</span></span>
+<span id="cb9-41"><a href="#cb9-41"></a>cm &lt;-<span class="st"> </span><span class="kw">binary_class_cm</span>(td_preds<span class="op">$</span>.pred_class,</span>
+<span id="cb9-42"><a href="#cb9-42"></a>                      td_preds<span class="op">$</span>ThryroidClass,</span>
+<span id="cb9-43"><a href="#cb9-43"></a>                      <span class="dt">positive=</span><span class="st">&quot;sick&quot;</span>)</span>
+<span id="cb9-44"><a href="#cb9-44"></a><span class="co">#&gt; [INFO] Building a record level confusion matrix to store in dataset</span></span>
+<span id="cb9-45"><a href="#cb9-45"></a><span class="co">#&gt; [INFO] Build finished and to expose record level cm use the record_level_cm list item</span></span></code></pre></div>
 <p>Final step is to view the Confusion Matrix and collapse down for storage in a database to model accuracy drift over time:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">#View Confusion matrix</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>cm<span class="op">$</span>confusion_matrix</span>
@@ -537,41 +568,41 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; </span></span>
 <span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;           Reference</span></span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; Prediction negative sick</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;   negative      629    3</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt;   sick           11   45</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;   negative      629   11</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt;   sick            3   45</span></span>
 <span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt;                                           </span></span>
 <span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt;                Accuracy : 0.9797          </span></span>
 <span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt;                  95% CI : (0.9661, 0.9888)</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;     No Information Rate : 0.9302          </span></span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt;     P-Value [Acc &gt; NIR] : 3.207e-09       </span></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;     No Information Rate : 0.9186          </span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt;     P-Value [Acc &gt; NIR] : 5.472e-12       </span></span>
 <span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt;                                           </span></span>
 <span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt;                   Kappa : 0.8544          </span></span>
 <span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt;                                           </span></span>
 <span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt;  Mcnemar&#39;s Test P-Value : 0.06137         </span></span>
 <span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt;                                           </span></span>
-<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt;             Sensitivity : 0.93750         </span></span>
-<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt;             Specificity : 0.98281         </span></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt;          Pos Pred Value : 0.80357         </span></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt;          Neg Pred Value : 0.99525         </span></span>
-<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt;              Prevalence : 0.06977         </span></span>
+<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt;             Sensitivity : 0.80357         </span></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt;             Specificity : 0.99525         </span></span>
+<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt;          Pos Pred Value : 0.93750         </span></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt;          Neg Pred Value : 0.98281         </span></span>
+<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt;              Prevalence : 0.08140         </span></span>
 <span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt;          Detection Rate : 0.06541         </span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;    Detection Prevalence : 0.08140         </span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt;       Balanced Accuracy : 0.96016         </span></span>
+<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;    Detection Prevalence : 0.06977         </span></span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt;       Balanced Accuracy : 0.89941         </span></span>
 <span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt;                                           </span></span>
 <span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt;        &#39;Positive&#39; Class : sick            </span></span>
 <span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; </span></span>
 <span id="cb10-30"><a href="#cb10-30"></a><span class="co">#View record level</span></span>
 <span id="cb10-31"><a href="#cb10-31"></a>cm<span class="op">$</span>record_level_cm</span>
 <span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt;   Pred_negative_Ref_negative Pred_sick_Ref_negative Pred_negative_Ref_sick</span></span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; 1                        629                     11                      3</span></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; 1                        629                      3                     11</span></span>
 <span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt;   Pred_sick_Ref_sick  Accuracy     Kappa AccuracyLower AccuracyUpper</span></span>
 <span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; 1                 45 0.9796512 0.8544487     0.9660936     0.9888315</span></span>
 <span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt;   AccuracyNull AccuracyPValue McnemarPValue Sensitivity Specificity</span></span>
-<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; 1    0.9302326   3.207365e-09    0.06136883      0.9375   0.9828125</span></span>
-<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt;   Pos.Pred.Value Neg.Pred.Value Precision Recall        F1 Prevalence</span></span>
-<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; 1      0.8035714      0.9952532 0.8035714 0.9375 0.8653846 0.06976744</span></span>
+<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; 1    0.9186047   5.471829e-12    0.06136883   0.8035714   0.9952532</span></span>
+<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt;   Pos.Pred.Value Neg.Pred.Value Precision    Recall        F1 Prevalence</span></span>
+<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; 1         0.9375      0.9828125    0.9375 0.8035714 0.8653846 0.08139535</span></span>
 <span id="cb10-40"><a href="#cb10-40"></a><span class="co">#&gt;   Detection.Rate Detection.Prevalence Balanced.Accuracy               cm_ts</span></span>
-<span id="cb10-41"><a href="#cb10-41"></a><span class="co">#&gt; 1     0.06540698           0.08139535         0.9601563 2022-01-04 11:01:04</span></span></code></pre></div>
+<span id="cb10-41"><a href="#cb10-41"></a><span class="co">#&gt; 1     0.06540698           0.06976744         0.8994123 2022-02-02 13:29:39</span></span></code></pre></div>
 <p>That is an example of how to model the Thyroid dataset, and random forest ensembles are giving us good estimates of the model performance. The Kappa level is also excellent, meaning that the model has a high likelihood of being good in practice.</p>
 </div>
 </div>
@@ -620,30 +651,35 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb13-5"><a href="#cb13-5"></a> cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;RestingECG&quot;</span>, <span class="st">&quot;Angina&quot;</span>, <span class="st">&quot;Sex&quot;</span>)</span>
 <span id="cb13-6"><a href="#cb13-6"></a><span class="co"># Dummy encode using dummy_encoder in ConfusionTableR package</span></span>
 <span id="cb13-7"><a href="#cb13-7"></a>coded &lt;-<span class="st"> </span>ConfusionTableR<span class="op">::</span><span class="kw">dummy_encoder</span>(hd_cat, cols, <span class="dt">remove_original =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt; Joining, by = c(&quot;Sex&quot;, &quot;row&quot;)</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt; Joining, by = c(&quot;Angina&quot;, &quot;row&quot;, &quot;RestingECG&quot;)</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a>coded &lt;-<span class="st"> </span>coded <span class="op">%&gt;%</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="st">     </span><span class="kw">select</span>(RestingECG_ST, RestingECG_LVH, <span class="dt">Angina=</span>Angina_Y,</span>
-<span id="cb13-12"><a href="#cb13-12"></a>     <span class="dt">Sex=</span>Sex_F)</span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="co"># Remove column names we have encoded from original data frame</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a>hd_one &lt;-<span class="st"> </span>hd[,<span class="op">!</span><span class="kw">names</span>(hd) <span class="op">%in%</span><span class="st"> </span>cols]</span>
-<span id="cb13-15"><a href="#cb13-15"></a><span class="co"># Bind the numerical data on to the categorical data</span></span>
-<span id="cb13-16"><a href="#cb13-16"></a>hd_final &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(coded, hd_one)</span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="co"># Output the final encoded data frame for the ML task</span></span>
-<span id="cb13-18"><a href="#cb13-18"></a><span class="kw">glimpse</span>(hd_final)</span>
-<span id="cb13-19"><a href="#cb13-19"></a><span class="co">#&gt; Rows: 918</span></span>
-<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#&gt; Columns: 11</span></span>
-<span id="cb13-21"><a href="#cb13-21"></a><span class="co">#&gt; $ RestingECG_ST    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,~</span></span>
-<span id="cb13-22"><a href="#cb13-22"></a><span class="co">#&gt; $ RestingECG_LVH   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
-<span id="cb13-23"><a href="#cb13-23"></a><span class="co">#&gt; $ Angina           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
-<span id="cb13-24"><a href="#cb13-24"></a><span class="co">#&gt; $ Sex              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~</span></span>
-<span id="cb13-25"><a href="#cb13-25"></a><span class="co">#&gt; $ Age              &lt;dbl&gt; 40, 49, 37, 48, 54, 39, 45, 54, 37, 48, 37, 58, 39, 4~</span></span>
-<span id="cb13-26"><a href="#cb13-26"></a><span class="co">#&gt; $ RestingBP        &lt;dbl&gt; 140, 160, 130, 138, 150, 120, 130, 110, 140, 120, 130~</span></span>
-<span id="cb13-27"><a href="#cb13-27"></a><span class="co">#&gt; $ Cholesterol      &lt;dbl&gt; 289, 180, 283, 214, 195, 339, 237, 208, 207, 284, 211~</span></span>
-<span id="cb13-28"><a href="#cb13-28"></a><span class="co">#&gt; $ FastingBS        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
-<span id="cb13-29"><a href="#cb13-29"></a><span class="co">#&gt; $ MaxHR            &lt;dbl&gt; 172, 156, 98, 108, 122, 170, 170, 142, 130, 120, 142,~</span></span>
-<span id="cb13-30"><a href="#cb13-30"></a><span class="co">#&gt; $ HeartPeakReading &lt;dbl&gt; 0.0, 1.0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0, 1.5, 0.0, 0.0~</span></span>
-<span id="cb13-31"><a href="#cb13-31"></a><span class="co">#&gt; $ HeartDisease     &lt;fct&gt; 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0,~</span></span></code></pre></div>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#&gt; </span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#&gt; Attaching package: &#39;purrr&#39;</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="co">#&gt; The following object is masked from &#39;package:caret&#39;:</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="co">#&gt; </span></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="co">#&gt;     lift</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="co">#&gt; Joining, by = c(&quot;Sex&quot;, &quot;row&quot;)</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="co">#&gt; Joining, by = c(&quot;Angina&quot;, &quot;row&quot;, &quot;RestingECG&quot;)</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>coded &lt;-<span class="st"> </span>coded <span class="op">%&gt;%</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a><span class="st">     </span><span class="kw">select</span>(RestingECG_ST, RestingECG_LVH, <span class="dt">Angina=</span>Angina_Y,</span>
+<span id="cb13-17"><a href="#cb13-17"></a>     <span class="dt">Sex=</span>Sex_F)</span>
+<span id="cb13-18"><a href="#cb13-18"></a><span class="co"># Remove column names we have encoded from original data frame</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a>hd_one &lt;-<span class="st"> </span>hd[,<span class="op">!</span><span class="kw">names</span>(hd) <span class="op">%in%</span><span class="st"> </span>cols]</span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="co"># Bind the numerical data on to the categorical data</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>hd_final &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(coded, hd_one)</span>
+<span id="cb13-22"><a href="#cb13-22"></a><span class="co"># Output the final encoded data frame for the ML task</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a><span class="kw">glimpse</span>(hd_final)</span>
+<span id="cb13-24"><a href="#cb13-24"></a><span class="co">#&gt; Rows: 918</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a><span class="co">#&gt; Columns: 11</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a><span class="co">#&gt; $ RestingECG_ST    &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,~</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a><span class="co">#&gt; $ RestingECG_LVH   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
+<span id="cb13-28"><a href="#cb13-28"></a><span class="co">#&gt; $ Angina           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a><span class="co">#&gt; $ Sex              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a><span class="co">#&gt; $ Age              &lt;dbl&gt; 40, 49, 37, 48, 54, 39, 45, 54, 37, 48, 37, 58, 39, 4~</span></span>
+<span id="cb13-31"><a href="#cb13-31"></a><span class="co">#&gt; $ RestingBP        &lt;dbl&gt; 140, 160, 130, 138, 150, 120, 130, 110, 140, 120, 130~</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a><span class="co">#&gt; $ Cholesterol      &lt;dbl&gt; 289, 180, 283, 214, 195, 339, 237, 208, 207, 284, 211~</span></span>
+<span id="cb13-33"><a href="#cb13-33"></a><span class="co">#&gt; $ FastingBS        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~</span></span>
+<span id="cb13-34"><a href="#cb13-34"></a><span class="co">#&gt; $ MaxHR            &lt;dbl&gt; 172, 156, 98, 108, 122, 170, 170, 142, 130, 120, 142,~</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a><span class="co">#&gt; $ HeartPeakReading &lt;dbl&gt; 0.0, 1.0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0, 1.5, 0.0, 0.0~</span></span>
+<span id="cb13-36"><a href="#cb13-36"></a><span class="co">#&gt; $ HeartDisease     &lt;fct&gt; 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0,~</span></span></code></pre></div>
 <p>The data is now ready for modelling in the same fashion as we saw with the thyroid dataset.</p>
 </div>
 </div>
