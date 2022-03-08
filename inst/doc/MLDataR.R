@@ -140,3 +140,81 @@ hd_final <- bind_cols(coded, hd_one)
 # Output the final encoded data frame for the ML task
 glimpse(hd_final)
 
+## ----ls_one-------------------------------------------------------------------
+library(MLDataR)
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(rsample)
+library(varhandle)
+
+data("long_stayers")
+glimpse(long_stayers)
+
+
+## ----ls_two-------------------------------------------------------------------
+long_stayers <- long_stayers %>% 
+  dplyr::mutate(stranded.label=factor(stranded.label)) %>% 
+  dplyr::select(everything(), -c(admit_date))
+
+cats <- select_if(long_stayers, is.character)
+cat_dummy <- varhandle::to.dummy(cats$frailty_index, "frail_ind") 
+#Converts the frailty index column to dummy encoding and sets a column called "frail_ind" prefix
+cat_dummy <- cat_dummy %>% 
+  as.data.frame() %>% 
+  dplyr::select(-frail_ind.No_index_item) #Drop the field of interest
+# Drop the frailty index from the stranded data frame and bind on our new encoding categorical variables
+long_stayers <- long_stayers %>% 
+  dplyr::select(-frailty_index) %>% 
+  bind_cols(cat_dummy) %>% na.omit(.)
+
+## ----ls_three-----------------------------------------------------------------
+split <- rsample::initial_split(long_stayers, prop = 3/4)
+train <- rsample::training(split)
+test <- rsample::testing(split)
+
+set.seed(123)
+glm_class_mod <- caret::train(factor(stranded.label) ~ ., data = train,
+                 method = "glm")
+print(glm_class_mod)
+
+## ----ls_four------------------------------------------------------------------
+split <- rsample::initial_split(long_stayers, prop = 3/4)
+train <- rsample::training(split)
+test <- rsample::testing(split)
+
+set.seed(123)
+glm_class_mod <- caret::train(factor(stranded.label) ~ ., data = train, 
+                 method = "glm")
+print(glm_class_mod)
+
+## ----ls_five------------------------------------------------------------------
+preds <- predict(glm_class_mod, newdata = test) # Predict class
+pred_prob <- predict(glm_class_mod, newdata = test, type="prob") #Predict probs
+
+# Join prediction on to actual test data frame and evaluate in confusion matrix
+
+predicted <- data.frame(preds, pred_prob)
+test <- test %>% 
+  bind_cols(predicted) %>% 
+  dplyr::rename(pred_class=preds)
+
+glimpse(test)
+
+## ----ls_six-------------------------------------------------------------------
+library(ConfusionTableR)
+cm <- ConfusionTableR::binary_class_cm(test$stranded.label, test$pred_class, positive="Stranded")
+cm$record_level_cm
+
+library(OddsPlotty)
+plotty <- OddsPlotty::odds_plot(glm_class_mod$finalModel,
+                                title = "Odds Plot ",
+                                subtitle = "Showing odds of patient stranded",
+                                point_col = "#00f2ff",
+                                error_bar_colour = "black",
+                                point_size = .5,
+                                error_bar_width = .8,
+                                h_line_color = "red")
+print(plotty)
+
+
