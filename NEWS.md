@@ -14,3 +14,6 @@ Datasets added:
 
 ## 0.1.3 - Added long_waiters dataset
 Added the long waiters dataset for working with NHS inpatients. 
+
+## 1.0.1 - Fixed issue with patient age in Thyroid dataset
+Fixed an issue with the patient age in the Thyroid dataset. 
